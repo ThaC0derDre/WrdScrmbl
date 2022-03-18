@@ -33,7 +33,7 @@ struct ContentView: View {
     func addNewWord() {
         let answer  = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard answer.count < 0 else { return }
+        guard answer.count > 0 else { return }
         
         usedWord.insert(answer, at: 0)
         
