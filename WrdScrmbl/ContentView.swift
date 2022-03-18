@@ -31,7 +31,20 @@ struct ContentView: View {
             }
             .navigationTitle(rootWord)
             .onSubmit(addNewWord)
+            .onAppear(perform: startGame)
         }
+    }
+    
+    
+    func startGame() {
+        if let startGameURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
+            if let startGameWords = try? String(contentsOf: startGameURL) {
+            let allWords    = startGameWords.components(separatedBy: "\n")
+            rootWord    = allWords.randomElement() ?? "wormwood"
+                return
+            }
+        }
+        fatalError("failed to grab contents from URL")
     }
 
     func addNewWord() {
