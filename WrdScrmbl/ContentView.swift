@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var newWord      = ""
     @State private var rootWord     = ""
     @State private var scoreBoard   = 0
+    @State private var prevWrdCnt   = 0
     
     @State private var alertTitle   = ""
     @State private var alertMessage = ""
@@ -63,6 +64,8 @@ struct ContentView: View {
             let allWords    = startGameWords.components(separatedBy: "\n")
             rootWord        = allWords.randomElement() ?? "wormwood"
                 scoreBoard  = 0
+                prevWrdCnt  = 0
+                usedWord    = []
                 return
             }
         }
@@ -99,10 +102,17 @@ struct ContentView: View {
         withAnimation {
            usedWord.insert(answer, at: 0)
         }
-        let bonus = newWord.count
+        let letterBonus = answer.count
+        scoreBoard += 1
+        var bonus       = letterBonus
         scoreBoard += bonus
-        newWord = ""
+        newWord     = ""
+        
+        
     }
+    
+    
+    
     
     
     func isNewWord(word: String) -> Bool {
