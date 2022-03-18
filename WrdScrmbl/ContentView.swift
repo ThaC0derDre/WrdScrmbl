@@ -34,6 +34,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle(rootWord)
+            .toolbar(content: {
+                Button("New Word"){
+                    startGame()
+                }
+            })
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
             .alert(alertTitle, isPresented: $presentAlert) {
@@ -69,7 +74,7 @@ struct ContentView: View {
             return
         }
         guard isRealWord(word: answer) else {
-            showAlert(title: "Invalid Word", message: "This isn't a real word! Try again.")
+            showAlert(title: "Invalid Word", message: "''\(answer)'' isn't a real word! Try again.")
             return
         }
         
