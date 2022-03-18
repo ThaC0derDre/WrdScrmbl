@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var usedWord = [String]()
-    @State private var newWord  = ""
-    @State private var rootWord = ""
+    @State private var usedWord     = [String]()
+    @State private var newWord      = ""
+    @State private var rootWord     = ""
+    @State private var scoreBoard   = 0
     
     @State private var alertTitle   = ""
     @State private var alertMessage = ""
@@ -24,11 +25,17 @@ struct ContentView: View {
                     TextField("Enter a word", text: $newWord)
                         .textInputAutocapitalization(.never)
                 }
+                
+                    Text("Score: \(scoreBoard)")
+                        .frame(maxWidth: .infinity)
+                        .frame(alignment: .trailing)
+                        
                 Section{
                     ForEach(usedWord, id: \.self) { word in
+                        
                         HStack {
-                            Image(systemName: "\(word.count).circle")
-                            Text(word)
+                                Image(systemName: "\(word.count).circle")
+                                Text(word)
                         }
                     }
                 }
@@ -55,6 +62,7 @@ struct ContentView: View {
             if let startGameWords = try? String(contentsOf: startGameURL) {
             let allWords    = startGameWords.components(separatedBy: "\n")
             rootWord        = allWords.randomElement() ?? "wormwood"
+                scoreBoard  = 0
                 return
             }
         }
@@ -91,7 +99,8 @@ struct ContentView: View {
         withAnimation {
            usedWord.insert(answer, at: 0)
         }
-        
+        let bonus = newWord.count
+        scoreBoard += bonus
         newWord = ""
     }
     
@@ -123,7 +132,7 @@ struct ContentView: View {
     
     
     func isTooShort(word: String) -> Bool {
-         word.count > 3
+         word.count > 2
     }
     
     
