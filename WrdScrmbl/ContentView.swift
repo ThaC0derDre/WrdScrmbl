@@ -73,6 +73,16 @@ struct ContentView: View {
             return
         }
         
+        guard isTooShort(word: answer) else {
+            showAlert(title: "Too Short", message: "Please enter words that are AT LEAST 3 letters long...")
+        return
+        }
+        
+        guard isRootWord(word: answer) else {
+            showAlert(title: "Same Word", message: "C'mon, that's already a given!")
+            return
+        }
+        
         withAnimation {
            usedWord.insert(answer, at: 0)
         }
@@ -107,11 +117,22 @@ struct ContentView: View {
     }
     
     
+    func isTooShort(word: String) -> Bool {
+         word.count > 3
+    }
+    
+    
+    func isRootWord(word: String) -> Bool {
+        word != rootWord
+    }
+    
+    
     func showAlert(title: String, message: String) {
         alertTitle      = title
         alertMessage    = message
         presentAlert    = true
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
